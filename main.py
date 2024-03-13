@@ -529,4 +529,6 @@
 # for i in range(len(s)):
 #     print(i, end=" ")
 
-print("Вносим изменения")
+# print("Вносим изменения")
+
+print("Данные переносим на GitHub")
