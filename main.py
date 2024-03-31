@@ -1,5 +1,6 @@
 # first_name = "Nikolay"
 # print("Hello," + first_name + "!")
+import re
 
 # a = 30
 # b = "Hello"
@@ -2228,4 +2229,15 @@
 # print(outer(5, 8, 2))
 # print(outer(1, 6, 8))
 
-print("Данные переносим на GitHub")
+# print("Данные переносим на GitHub")
+
+# print(re.findall("""[a-z.-]+
+# @
+# [a-z.-]+
+# """, "test@mail.ru", re.VERBOSE))
+
+def valid_login(name):
+    return re.findall("[A-Za-z0-9_-]{6-18}$", name)
+
+
+print(name('ougiya'))
