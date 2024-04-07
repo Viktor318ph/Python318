@@ -2236,8 +2236,24 @@ import re
 # [a-z.-]+
 # """, "test@mail.ru", re.VERBOSE))
 
-def valid_login(name):
-    return re.findall("[A-Za-z0-9_-]{6-18}$", name)
+# def valid_login(name):
+#     return re.findall("[A-Za-z0-9_-]{6-18}$", name)
+#
+#
+# print(name('ougiya'))
 
 
-print(name('ougiya'))
+# f = open("test.txt", "r")
+# print(f)
+# print(*f)
+# f.close()
+
+
+# f = open("test.txt", "r")
+# print(f.read())
+# f.close()
+
+
+f = open("test1.txt", "r")
+print(f.readlines())
+f.close()
