@@ -1,6 +1,6 @@
 # first_name = "Nikolay"
-# print("Hello," + first_name + "!")
-import re
+# # print("Hello," + first_name + "!")
+# import re
 
 # a = 30
 # b = "Hello"
@@ -2254,6 +2254,21 @@ import re
 # f.close()
 
 
-f = open("test1.txt", "r")
-print(f.readlines())
-f.close()
+# f = open("test1.txt", "r")
+# print(f.readlines())
+# f.close()
+
+
+import sqlite3
+
+
+con = sqlite3.connect("profile.db")
+cur = con.cursor()
+
+cur.execute("""CREATE TABLE users(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+name TEXT NOT NULL,
+summa REAL,
+date BLOB)""")
+
+con.close()
