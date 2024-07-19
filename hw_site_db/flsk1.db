@@ -1,0 +1,28 @@
+--
+-- Файл сгенерирован с помощью SQLiteStudio v3.4.4 в Пт июл 19 15:12:00 2024
+--
+-- Использованная кодировка текста: System
+--
+PRAGMA foreign_keys = off;
+BEGIN TRANSACTION;
+
+-- Таблица: courses
+CREATE TABLE IF NOT EXISTS courses(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    course_name TEXT NOT NULL,
+    price INTEGER NOT NULL,
+    description TEXT NOT NULL,
+    time INTEGER NOT NULL
+);
+INSERT INTO courses (id, course_name, price, description, time) VALUES (1, ' Курс Python', 14110, 'Учебная программа "Программирование на Python" создана для тех, кто хочет с нуля освоить 3й по популярности язык в мире, и создавать на нём от простых приложений до высоконагруженных web-сервисов.', 1721116485);
+INSERT INTO courses (id, course_name, price, description, time) VALUES (2, 'Разработка на Java', 6070, 'Основам программирования на языке Java; Принципам объектно-ориентированного программирования; Понимать механизмы многопоточности Java; Уметь сериализовать и парсить данные используя JSON.', 1721116746);
+INSERT INTO courses (id, course_name, price, description, time) VALUES (3, 'Курс Front-end', 7300, 'Введение в веб-технологии. Структура HTML. Форматирование текста с помощью HTML. Управлять браузерами и элементами HTML-страниц с помощью JavaScript. Владеть фреймворками React и Angular', 1721116976);
+
+-- Таблица: mainmenu
+CREATE TABLE IF NOT EXISTS mainmenu (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, url TEXT NOT NULL);
+INSERT INTO mainmenu (id, title, url) VALUES (1, 'Каталог курсов(главная)', '/');
+INSERT INTO mainmenu (id, title, url) VALUES (2, 'Добавить курс', '/add_course');
+INSERT INTO mainmenu (id, title, url) VALUES (3, 'Информация', '/information');
+
+COMMIT TRANSACTION;
+PRAGMA foreign_keys = on;
