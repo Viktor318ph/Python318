@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Блог - Сообщество настольных игр{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="section-title text-center mb-5">Блог</h1>
+    
+    {% if user.is_authenticated %}
+        <div class="text-center mb-4">
+            <a href="{% url 'post_create' %}" class="btn btn-primary">Создать новый пост</a>
+        </div>
+    {% endif %}
+
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for post in page_obj %}
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text">{{ post.content|truncatewords:50 }}</p>
+                        <p class="card-text"><small class="text-muted">Автор: {{ post.author.username }} | Дата: {{ post.created_at }}</small></p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="{% url 'post_detail' post.pk %}" class="btn btn-primary">Читать далее</a>
+                        {% if user == post.author %}
+                            <a href="{% url 'post_edit' post.pk %}" class="btn btn-outline-secondary">Редактировать</a>
+                            <a href="{% url 'post_delete' post.pk %}" class="btn btn-outline-danger">Удалить</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="col-12 text-center">Постов пока нет.</p>
+        {% endfor %}
+    </div>
+
+    {% include 'pagination.html' with page=page_obj %}
+</div>
+{% endblock %}

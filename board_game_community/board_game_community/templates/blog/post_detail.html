@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="mb-4">{{ post.title }}</h1>
+            <p class="text-muted">
+                <small>Автор: {{ post.author.username }} | Дата: {{ post.created_at|date:"d M Y H:i" }}</small>
+            </p>
+            <div class="card mb-4">
+                <div class="card-body">
+                    {{ post.content|linebreaksbr }}
+                </div>
+            </div>
+            {% if user == post.author %}
+                <a href="{% url 'post_edit' post.pk %}" class="btn btn-secondary">Редактировать</a>
+                <a href="{% url 'post_delete' post.pk %}" class="btn btn-danger">Удалить</a>
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+            <h3 class="mb-4">Комментарии</h3>
+            {% for comment in comments %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ comment.author.username }}</h5>
+                        <p class="card-text">{{ comment.text }}</p>
+                        <p class="card-text"><small class="text-muted">{{ comment.created_at|date:"d M Y H:i" }}</small></p>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="text-muted">Комментариев пока нет.</p>
+            {% endfor %}
+
+            {% if user.is_authenticated %}
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h4 class="mb-0">Добавить комментарий</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            {% for field in comment_form %}
+                                <div class="mb-3">
+                                    {{ field }}
+                                    {% if field.errors %}
+                                        {% for error in field.errors %}
+                                            <div class="alert alert-danger mt-1">{{ error }}</div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                            <button type="submit" class="btn btn-primary">Отправить</button>
+                        </form>
+                    </div>
+                </div>
+            {% else %}
+                <div class="alert alert-info mt-4">
+                    Чтобы оставить комментарий, пожалуйста, <a href="{% url 'login' %}">войдите</a> или <a href="{% url 'register' %}">зарегистрируйтесь</a>.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

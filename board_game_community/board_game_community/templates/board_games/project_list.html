@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Проекты настольных игр - Сообщество настольных игр{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="section-title text-center mb-5">Проекты настольных игр</h1>
+    
+    <div class="text-center mb-4">
+        <a href="{% url 'project_create' %}" class="btn btn-primary btn-lg">Создать свой проект игры</a>
+    </div>
+    
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for project in page_obj %}
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <p class="card-text">{{ project.description|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                {{ project.author.username }}<br>
+                                {{ project.created_at|date:"d.m.Y" }}
+                            </small>
+                            <a href="{% url 'project_detail' project.pk %}" class="btn btn-primary">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center">
+                <div class="alert alert-info" role="alert">
+                    <h4 class="alert-heading">Упс! Пока проектов нет.</h4>
+                    <p>Станьте первым, кто создаст удивительный проект настольной игры!</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    {% include 'pagination.html' with page=page_obj %}
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ board_game.title }}{% endblock %}
+
+{% block content %}
+    <div class="container py-5">
+        <h1 class="section-title text-center mb-5">{{ board_game.title }}</h1>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                {% if board_game.image %}
+                    <img src="{{ board_game.image.url }}" class="d-block w-100 shadow" alt="{{ board_game.title }}">
+                {% else %}
+                    <p class="text-center">Изображение отсутствует</p>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <p><strong>Описание:</strong> {{ board_game.description }}</p>
+                        <p><strong>Правила:</strong><br/> {{ board_game.rules|linebreaksbr }}</p>
+                        <p><strong>Количество
+                            игроков:</strong> {{ board_game.min_players }}-{{ board_game.max_players }}</p>
+                        <p><strong>Среднее время игры:</strong> {{ board_game.average_playtime }} минут</p>
+                        <p><strong>Автор:</strong> <a
+                                href="{% url 'user_profile' board_game.author.username %}">{{ board_game.author.username }}</a>
+                        </p>
+                        <p><strong>Дата создания:</strong> {{ board_game.created_at|date:"d.m.Y" }}</p>
+                        <p><strong>Лайки:</strong> {{ board_game.likes.count }}</p>
+
+                        {% if user.is_authenticated %}
+                            <form action="{% url 'like_board_game' board_game.pk %}" method="post" class="mb-3">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">
+                                    {% if user in board_game.likes.all %}Убрать лайк{% else %}Лайк{% endif %}
+                                </button>
+                            </form>
+                        {% endif %}
+
+                        {% if user == board_game.author %}
+                            <a href="{% url 'board_game_edit' board_game.pk %}"
+                               class="btn btn-secondary">Редактировать</a>
+                            <a href="{% url 'board_game_delete' board_game.pk %}" class="btn btn-danger">Удалить</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title mt-5 mb-4">Комментарии</h2>
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                {% for comment in comments %}
+                    <div class="card shadow-sm mb-3">
+                        <div class="card-body">
+                            <p class="card-text">{{ comment.text }}</p>
+                            <p class="card-text"><small class="text-muted">{{ comment.author.username }}
+                                - {{ comment.created_at|date:"d.m.Y H:i" }}</small></p>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="text-center">Нет комментариев.</p>
+                {% endfor %}
+
+                {% if user.is_authenticated %}
+                    <div class="card shadow mt-4">
+                        <div class="card-body">
+                            <h3 class="card-title">Добавить комментарий</h3>
+                            <form method="post">
+                                {% csrf_token %}
+                                {{ comment_form.as_p }}
+                                <button type="submit" class="btn btn-primary">Отправить</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Результаты поиска{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1>Результаты поиска для "{{ query }}"</h1>
+
+        <h2>Настольные игры</h2>
+        <div class="row">
+            {% for game in board_games %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ game.title }}</h5>
+                            <p class="card-text">{{ game.description|truncatewords:20 }}</p>
+                            <a href="{% url 'board_game_detail' game.pk %}" class="btn btn-primary">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>Настольные игры не найдены.</p>
+            {% endfor %}
+        </div>
+
+        <h2>Блог-посты</h2>
+        <div class="row">
+            {% for post in blog_posts %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text">{{ post.content|truncatewords:20 }}</p>
+                            <a href="{% url 'post_detail' post.pk %}" class="btn btn-primary">Читать</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>Блог-посты не найдены.</p>
+            {% endfor %}
+        </div>
+
+        <h2>Проекты</h2>
+        <div class="row">
+            {% for project in projects %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ project.title }}</h5>
+                            <p class="card-text">{{ project.description|truncatewords:20 }}</p>
+                            <a href="{% url 'project_detail' project.pk %}" class="btn btn-primary">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>Проекты не найдены.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
